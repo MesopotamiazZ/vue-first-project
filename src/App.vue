@@ -7,18 +7,26 @@
         {{ task.taskName }}
       </li>
     </ul>
+    <p>child tell me:{{ childWords }}</p>
+    <component-a msgfromfather="my son" v-on:child-tell-me-something="listenToMyBoy"></component-a>
   </div>
 </template>
 
 <script>
 import Store from './store'
+import ComponentA from './components/ComponentA'
+
 export default {
   data:function(){
     return {
       title:'任务列表',
       tasks:Store.fetch(),
-      task:{taskName:'',isFinshed:false}
+      task:{taskName:'',isFinshed:false},
+      childWords:''
     }
+  },
+  components:{
+    ComponentA
   },
   methods:{
     toggleFinsh:function(index){
@@ -27,6 +35,9 @@ export default {
     addTask:function(task){
       this.tasks.push(task)
       this.task = {taskName:'',isFinshed:false}
+    },
+    listenToMyBoy:function(msg){
+      this.childWords = msg
     }
   },
   watch:{
